@@ -14,6 +14,38 @@ interface Message {
   timestamp: Date
 }
 
+// --- AI Response Configuration ---
+const responseMap: Record<string, string> = {
+  "hutan|forest":
+    "🌲 Berdasarkan data terbaru, Indonesia memiliki sekitar 920,000 km² hutan primer dan 340,000 km² hutan sekunder. Upaya konservasi terus dilakukan melalui program restorasi dan monitoring satelit real-time.",
+  "deforestasi|penebangan":
+    "🪓 Penyebab utama deforestasi di Indonesia meliputi konversi lahan untuk kelapa sawit, pertanian skala besar, penebangan ilegal, dan pembangunan infrastruktur. Monitoring satelit membantu deteksi dini.",
+  "api|kebakaran|fire":
+    "🔥 Sistem monitoring titik api menggunakan data NASA FIRMS (VIIRS & MODIS). Deteksi real-time setiap 6 jam dengan confidence 70-95%, terutama di Sumatra dan Kalimantan.",
+  "ndvi|vegetasi":
+    "🌱 NDVI (Normalized Difference Vegetation Index) mengukur kesehatan vegetasi (-1 hingga +1). Nilai tinggi (0.6-0.9) berarti vegetasi sehat. Rata-rata NDVI hutan Indonesia adalah 0.7.",
+  "satelit|citra":
+    "🛰️ Kami menggunakan berbagai satelit seperti Sentinel-2 (10m resolusi), Landsat-8 (30m), dan MODIS (250m-1km) untuk monitoring perubahan tutupan lahan harian.",
+  "lahan|tutupan":
+    "🗺️ Tutupan lahan Indonesia terdiri dari hutan primer (48.2%), hutan sekunder (17.8%), pertanian (19.9%), perairan (6.3%), perkotaan (4.5%), dan padang rumput (3.4%).",
+  "ekspor|download":
+    "💾 Anda dapat mengekspor data dalam format GeoTIFF, Shapefile, GeoJSON, KML, atau CSV. Pilih layer, tanggal, dan format yang diinginkan di panel kontrol.",
+  "default":
+    "🤖 Terima kasih! Saya dapat membantu dengan info tutupan lahan, monitoring hutan, titik api, NDVI, dan data satelit. Silakan ajukan pertanyaan spesifik atau pilih dari contoh di atas.",
+};
+
+const generateAIResponse = (question: string): string => {
+  const lowerQuestion = question.toLowerCase();
+  for (const keywords in responseMap) {
+    if (keywords !== "default" && keywords.split("|").some(keyword => lowerQuestion.includes(keyword))) {
+      return responseMap[keywords];
+    }
+  }
+  return responseMap["default"];
+};
+
+
+// --- Component ---
 export function AskLandAI() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
@@ -49,7 +81,6 @@ export function AskLandAI() {
     setInputValue("")
     setIsTyping(true)
 
-    // Simulate AI response
     setTimeout(() => {
       const aiResponse = generateAIResponse(inputValue)
       const aiMessage: Message = {
@@ -61,41 +92,6 @@ export function AskLandAI() {
       setMessages((prev) => [...prev, aiMessage])
       setIsTyping(false)
     }, 1500)
-  }
-
-  const generateAIResponse = (question: string): string => {
-    const lowerQuestion = question.toLowerCase()
-
-    if (lowerQuestion.includes("hutan") || lowerQuestion.includes("forest")) {
-      return "🌲 Berdasarkan data terbaru, Indonesia memiliki sekitar 920,000 km² hutan primer dan 340,000 km² hutan sekunder. Hutan Indonesia mengalami tekanan dari deforestasi, namun upaya konservasi terus dilakukan melalui program restorasi dan monitoring satelit real-time."
-    }
-
-    if (lowerQuestion.includes("deforestasi") || lowerQuestion.includes("penebangan")) {
-      return "🪓 Penyebab utama deforestasi di Indonesia meliputi: 1) Konversi lahan untuk perkebunan kelapa sawit, 2) Pertanian skala besar, 3) Penebangan ilegal, 4) Pembangunan infrastruktur. Monitoring satelit membantu deteksi dini perubahan tutupan lahan."
-    }
-
-    if (lowerQuestion.includes("api") || lowerQuestion.includes("kebakaran") || lowerQuestion.includes("fire")) {
-      return "🔥 Sistem monitoring titik api menggunakan data NASA FIRMS dengan satelit VIIRS dan MODIS. Deteksi real-time setiap 6 jam dengan tingkat confidence 70-95%. Hotspot terbanyak di Sumatra dan Kalimantan, terutama di lahan gambut."
-    }
-
-    if (lowerQuestion.includes("ndvi") || lowerQuestion.includes("vegetasi")) {
-      return "🌱 NDVI (Normalized Difference Vegetation Index) mengukur kesehatan vegetasi dengan skala -1 hingga +1. Nilai tinggi (0.6-0.9) menunjukkan vegetasi sehat, rendah (0.1-0.3) menunjukkan lahan terbuka. Indonesia rata-rata NDVI 0.7 di area hutan."
-    }
-
-    if (lowerQuestion.includes("satelit") || lowerQuestion.includes("citra")) {
-      return "🛰️ Kami menggunakan berbagai satelit: Sentinel-2 (10m resolusi), Landsat-8 (30m), MODIS (250m-1km). Data diperbarui harian untuk monitoring perubahan tutupan lahan, deteksi deforestasi, dan analisis kesehatan ekosistem."
-    }
-
-    if (lowerQuestion.includes("lahan") || lowerQuestion.includes("tutupan")) {
-      return "🗺️ Tutupan lahan Indonesia: 48.2% hutan primer, 17.8% hutan sekunder, 19.9% pertanian, 6.3% perairan, 4.5% perkotaan, 3.4% padang rumput. Data ini dianalisis menggunakan klasifikasi citra satelit dan ground truth."
-    }
-
-    if (lowerQuestion.includes("ekspor") || lowerQuestion.includes("download")) {
-      return "💾 Anda dapat mengekspor data dalam format: GeoTIFF (raster), Shapefile (vektor), GeoJSON (web), KML (Google Earth), CSV (tabular). Pilih layer, tanggal, dan format yang diinginkan di panel kontrol."
-    }
-
-    // Default response
-    return "🤖 Terima kasih atas pertanyaan Anda! Saya dapat membantu dengan informasi tentang tutupan lahan Indonesia, monitoring hutan, deteksi titik api, analisis NDVI, dan interpretasi data satelit. Silakan ajukan pertanyaan spesifik atau pilih dari pertanyaan cepat di atas."
   }
 
   const handleQuickQuestion = (question: string) => {
@@ -135,7 +131,6 @@ export function AskLandAI() {
             </div>
           </div>
           <div className="flex items-center gap-1">
-            {/* Mobile Close Button */}
             <Button
               variant="ghost"
               size="icon"
@@ -145,7 +140,6 @@ export function AskLandAI() {
             >
               <Minimize2 className="h-4 w-4" />
             </Button>
-            {/* Desktop Close Button */}
             <Button
               variant="ghost"
               size="icon"
@@ -160,7 +154,6 @@ export function AskLandAI() {
       </CardHeader>
 
       <CardContent className="p-0 flex flex-col h-[calc(70vh-80px)] lg:h-[calc(600px-80px)]">
-        {/* Quick Questions */}
         <div className="p-3 lg:p-4 border-b bg-gray-50/50">
           <p className="text-xs text-gray-600 mb-2">Pertanyaan Cepat:</p>
           <div className="flex flex-wrap gap-1">
@@ -178,7 +171,6 @@ export function AskLandAI() {
           </div>
         </div>
 
-        {/* Messages */}
         <ScrollArea className="flex-1 p-3 lg:p-4">
           <div className="space-y-3 lg:space-y-4">
             {messages.map((message) => (
@@ -246,7 +238,6 @@ export function AskLandAI() {
           </div>
         </ScrollArea>
 
-        {/* Input */}
         <div className="p-3 lg:p-4 border-t bg-white">
           <div className="flex gap-2">
             <Input
