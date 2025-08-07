@@ -51,7 +51,9 @@ Untuk developer yang ingin berkontribusi atau menjalankan proyek ini di mesin lo
 
     ## Lisensi
 
-Proyek ini dilisensikan di bawah [MIT License](./LICENSE).  
-Silakan gunakan, modifikasi, dan distribusikan proyek ini secara bebas selama mencantumkan lisensi sesuai ketentuan.
+    ## Lisensi
 
-Hak cipta © 2025 PashaAkrilian dan Tim EcoSentra.
+    Proyek ini dilisensikan di bawah [MIT License](./License.txt).  
+    Anda bebas menggunakan, menyalin, memodifikasi, dan mendistribusikan proyek ini untuk tujuan apa pun, selama tetap mencantumkan lisensi ini.
+
+    Hak Cipta © 2025 tim EcoSentra – Ketua: PashaAkrilian
