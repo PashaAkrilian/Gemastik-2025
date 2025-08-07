@@ -51,8 +51,6 @@ Untuk developer yang ingin berkontribusi atau menjalankan proyek ini di mesin lo
 
     ## Lisensi
 
-    ## Lisensi
-
     Proyek ini dilisensikan di bawah [MIT License](./License.txt).  
     Anda bebas menggunakan, menyalin, memodifikasi, dan mendistribusikan proyek ini untuk tujuan apa pun, selama tetap mencantumkan lisensi ini.
 
