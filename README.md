@@ -48,3 +48,10 @@ Untuk developer yang ingin berkontribusi atau menjalankan proyek ini di mesin lo
     ```
 
     Buka [http://localhost:3000](http://localhost:3000) di browser Anda.
+
+    ## Lisensi
+
+Proyek ini dilisensikan di bawah [MIT License](./LICENSE).  
+Silakan gunakan, modifikasi, dan distribusikan proyek ini secara bebas selama mencantumkan lisensi sesuai ketentuan.
+
+Hak cipta © 2025 PashaAkrilian dan Tim EcoSentra.
